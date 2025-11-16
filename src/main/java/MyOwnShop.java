@@ -21,20 +21,25 @@ public class MyOwnShop {
                 "                  \\|___|/                                                         \\|_________|                           \n" +
                 "                                                                                                           " );
         System.out.println( "---------------------------------------------------------------------------------------------------------------------------" );
-        System.out.println( "¿A qué módulo deseas ingresar?\n1. Inventario\n2. Ventass\n3. Estadisticas" );
-        int opcMenu = sc.nextInt();
-        switch (opcMenu){
-            case 1:
-                Inventario();
-                break;
-            case 2:
-                Ventas();
-                break;
-            case 3:
-                Estadisticas();
-                break;
-            default:
-                break;
+        int opcMenu = 0;
+        while ( opcMenu != 4 ) {
+            System.out.println("¿A qué módulo deseas ingresar?\n1. Inventario\n2. Ventass\n3. Estadisticas\n4. Salir");
+            opcMenu = sc.nextInt();
+            switch (opcMenu) {
+                case 1:
+                    Inventario();
+                    break;
+                case 2:
+                    Ventas();
+                    break;
+                case 3:
+                    Estadisticas();
+                    break;
+                case 4:
+                    System.out.println( "Saliendo..." );
+                default:
+                    break;
+            }
         }
     }
 
@@ -52,20 +57,23 @@ public class MyOwnShop {
         while ( Log == 0 ){
             LoginBasico();
         }
-        System.out.println( "¿Qué desea realizar?\n1. Ver productos\n2. Eliminar productos\n3. Gestionar inventario" );
-        int opcInventario = sc.nextInt();
-        switch (opcInventario){
-            case 1:
-                Productos();
-                break;
-            case 2:
-                EliminarProductos();
-                break;
-            case 3:
-                GestionarInventario();
-                break;
-            default:
-                break;
+        int opcInventario = 0;
+        while (opcInventario != 4 ) {
+            System.out.println("¿Qué desea realizar?\n1. Ver productos\n2. Eliminar productos\n3. Gestionar inventario");
+            opcInventario = sc.nextInt();
+            switch (opcInventario) {
+                case 1:
+                    Productos();
+                    break;
+                case 2:
+                    EliminarProductos();
+                    break;
+                case 3:
+                    GestionarInventario();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -74,6 +82,29 @@ public class MyOwnShop {
     }
 
     private static void EliminarProductos() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print( "Ingresa el código del producto que desees borrar: ");
+        int codigo = sc.nextInt();
+        sc.nextLine();
+            if (codigo < 0 || codigo >= i){
+                System.out.println( "Producto no encontrado" );
+            }
+        for (int j = codigo; j < i - 1; j++) {
+            NomProd[ j ] = NomProd[ j + 1 ];
+            PrecProd[ j ] = PrecProd[ j + 1 ];
+            ExistProd[ j ] = ExistProd[ j + 1 ];
+            PSug[ j ] = PSug[ j + 1 ];
+        }
+        System.out.println( "¿Estas seguro?\n1. Si\n2. No" );
+        int estado = sc.nextInt();
+        if (estado == 1){
+            NomProd[i - 1] = null;
+            PrecProd[i - 1] = 0;
+            ExistProd[i - 1] = 0;
+            PSug[i - 1] = 0;
+            i--;
+        }
+        System.out.println( "Producto eliminado correctamente" );
     }
 
     private static void Productos() {
@@ -89,7 +120,7 @@ public class MyOwnShop {
             System.out.println( "Ingresa el número existencias del producto: " );
             ExistProd[ i ] = sc.nextInt();
             sc.nextLine();
-            producto[i] = NomProd[i] + " | " + PrecProd[i] + " | " + ExistProd[i] + " | " + PSug[i];
+            producto[i] = "Código: " + i + " | " + "Nombre: " + NomProd[i] + " | " + "Precio: " + PrecProd[i] + " | " + "Cantidad: " + ExistProd[i] + " | " + "Precio sugerido: " + PSug[i];
             System.out.println( "¿Desea agregar más prodcutos?\n1. Si\n2. No");
             int Elec = sc.nextInt();
             sc.nextLine();
