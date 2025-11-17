@@ -50,6 +50,51 @@ public class MyOwnShop {
     }
 
     private static void Ventas() {
+        Scanner sc = new Scanner(System.in);
+        int opcVentas = 0;
+        while ( opcVentas != 3 ) {
+            System.out.println("Bienvenido al módulo de ventas, ¿qué desea realizar?\n 1. Ir al reporte de ventas\n 2. Ir a la calculadora\n 3. Salir");
+            opcVentas = sc.nextInt();
+            switch (opcVentas) {
+                case 1:
+                    ReportedeVentas();
+                    break;
+                case 2:
+                    Calculadora();
+                    break;
+                case 3:
+                    System.out.println("Saliendo...");
+                    break;
+                default:
+                    System.out.println("Opción inválida");
+                    break;
+            }
+        }
+    }
+
+    private static void Calculadora() {
+        Scanner sc = new Scanner(System.in);
+        int count = 0;
+        double[] suma =  new double[ 30 ];
+        int o = 0;
+        while ( o == 0 ){
+            System.out.print("Ingrese el valor del producto: ");
+            suma[ count ] = sc.nextDouble();
+            count++;
+            System.out.println( "¿Deseas agregar más productos?\n1. Si\n2. No" );
+            int opcCalculadora = sc.nextInt();
+            if ( opcCalculadora == 2 ){
+                o = 1;
+            }
+        }
+        double total = 0;
+        for (int j = 0; j < count; j++) {
+            total += suma[ j ];
+        }
+        System.out.println( "El total a pagar es: " + total);
+    }
+
+    private static void ReportedeVentas() {
     }
 
     private static void Inventario() {
