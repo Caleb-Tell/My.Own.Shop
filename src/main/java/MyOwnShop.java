@@ -1,4 +1,8 @@
 import java.util.Arrays;
+import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.BufferedWriter;
+import java.io.PrintWriter;
 import java.util.Scanner;
 public class MyOwnShop {
     public static int i = 0;
@@ -55,6 +59,7 @@ public class MyOwnShop {
         while ( opcVentas != 3 ) {
             System.out.println("Bienvenido al módulo de ventas, ¿qué desea realizar?\n 1. Ir al reporte de ventas\n 2. Ir a la calculadora\n 3. Salir");
             opcVentas = sc.nextInt();
+            sc.nextLine();
             switch (opcVentas) {
                 case 1:
                     ReportedeVentas();
@@ -96,8 +101,8 @@ public class MyOwnShop {
 
     private static void ReportedeVentas()
     {
+        int vent = 0;
         System.out.println("Bienvenido al reporte de ventas");
-
         String NomProduc;
         int PrecProduc;
         String[] arrventa = new String[100];
@@ -111,15 +116,14 @@ public class MyOwnShop {
             PrecProduc = scanner.nextInt();
             System.out.println("¿deseas ingresar otro producto?\n1. si\n2. no");
             desci = scanner.nextInt();
-            arrventa[i] = NomProduc +" "+ PrecProduc;
-            i++;
+            arrventa[ vent ] = NomProduc +" "+ PrecProduc;
+            vent++;
         }
         while (desci==1);
-        for (int e = 0; e<i; e++)
+        for (int e = 0; e < vent; e++)
         {
-            System.out.println(arrventa[e]);
+            System.out.println(arrventa[ e ]);
         }
-
     }
 
     private static void Inventario() {
@@ -158,23 +162,28 @@ public class MyOwnShop {
         sc.nextLine();
             if (codigo < 0 || codigo >= i){
                 System.out.println( "Producto no encontrado" );
+                return;
             }
+        System.out.println( "¿Estas seguro?\n1. Si\n2. No" );
+        int estado = sc.nextInt();
+        sc.nextLine();
+        if (estado == 1){
         for (int j = codigo; j < i - 1; j++) {
             NomProd[ j ] = NomProd[ j + 1 ];
             PrecProd[ j ] = PrecProd[ j + 1 ];
             ExistProd[ j ] = ExistProd[ j + 1 ];
             PSug[ j ] = PSug[ j + 1 ];
+            producto[ j ] = "Código: "+ j + " | " + "Nombre; " + NomProd[ j ] + " | " + "Precio: " + PrecProd[ j ] + " | " + "Cantidad: " + ExistProd[ j ] + " | " + "Precio sugerido: " + PSug[ j ];
         }
-        System.out.println( "¿Estas seguro?\n1. Si\n2. No" );
-        int estado = sc.nextInt();
-        if (estado == 1){
             NomProd[i - 1] = null;
             PrecProd[i - 1] = 0;
             ExistProd[i - 1] = 0;
             PSug[i - 1] = 0;
+            producto[ i - 1] = null;
             i--;
         }
         System.out.println( "Producto eliminado correctamente" );
+        guardararchivo();
     }
 
     private static void Productos() {
@@ -202,7 +211,9 @@ public class MyOwnShop {
         for ( int k = 0; k < i; k++){
             System.out.println(producto[k]);
         }
+        guardararchivo();
     }
+
     private static void LoginBasico( ) {
         Scanner sc = new Scanner(System.in);
         Log = 0;
@@ -218,6 +229,26 @@ public class MyOwnShop {
         }
         else {
             System.out.println("Usuario o contraseña incorrectos.");
+        }
+    }
+
+    private static void cargararchivo(){
+
+    }
+
+    private static void guardararchivo() {
+        try {
+            FileWriter fw = new FileWriter("Productos.txt");
+            PrintWriter pw = new PrintWriter(fw);
+            pw.println("=== LISTA DE PRODUCTOS REGISTRADOS ===");
+            for (int j = 0; j < i; j++) {
+                if (producto[j] != null && !producto[j].isEmpty())
+                    pw.println(producto[j]);
+            }
+            pw.close();
+            System.out.println("Producto guardado correctamente");
+        } catch (Exception e) {
+            System.out.println("Error al guardar archivo: " + e.getMessage());
         }
     }
 }
