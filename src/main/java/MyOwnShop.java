@@ -1,8 +1,5 @@
+import java.io.*;
 import java.util.Arrays;
-import java.io.FileWriter;
-import java.io.FileReader;
-import java.io.BufferedWriter;
-import java.io.PrintWriter;
 import java.util.Scanner;
 public class MyOwnShop {
     public static int i = 0;
@@ -15,6 +12,7 @@ public class MyOwnShop {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        cargararchivo();
         System.out.println( " _____ ______       ___    ___      ________  ___       __   ________           ________  ___  ___  ________  ________   \n" +
                 "|\\   _ \\  _   \\    |\\  \\  /  /|    |\\   __  \\|\\  \\     |\\  \\|\\   ___  \\        |\\   ____\\|\\  \\|\\  \\|\\   __  \\|\\   __  \\  \n" +
                 "\\ \\  \\\\\\__\\ \\  \\   \\ \\  \\/  / /    \\ \\  \\|\\  \\ \\  \\    \\ \\  \\ \\  \\\\ \\  \\       \\ \\  \\___|\\ \\  \\\\\\  \\ \\  \\|\\  \\ \\  \\|\\  \\ \n" +
@@ -133,7 +131,7 @@ public class MyOwnShop {
         }
         int opcInventario = 0;
         while (opcInventario != 4 ) {
-            System.out.println("¿Qué desea realizar?\n1. Ver productos\n2. Eliminar productos\n3. Gestionar inventario");
+            System.out.println("¿Qué desea realizar?\n1. Ver productos\n2. Eliminar productos\n3. Gestionar inventario\n4. Salir");
             opcInventario = sc.nextInt();
             switch (opcInventario) {
                 case 1:
@@ -144,6 +142,9 @@ public class MyOwnShop {
                     break;
                 case 3:
                     GestionarInventario();
+                    break;
+                case 4:
+                    System.out.println( "Saliendo..." );
                     break;
                 default:
                     break;
@@ -173,7 +174,7 @@ public class MyOwnShop {
             PrecProd[ j ] = PrecProd[ j + 1 ];
             ExistProd[ j ] = ExistProd[ j + 1 ];
             PSug[ j ] = PSug[ j + 1 ];
-            producto[ j ] = "Código: "+ j + " | " + "Nombre; " + NomProd[ j ] + " | " + "Precio: " + PrecProd[ j ] + " | " + "Cantidad: " + ExistProd[ j ] + " | " + "Precio sugerido: " + PSug[ j ];
+            producto[ j ] = "Código: "+ j + " | " + "Nombre: " + NomProd[ j ] + " | " + "Precio: " + PrecProd[ j ] + " | " + "Cantidad: " + ExistProd[ j ] + " | " + "Precio sugerido: " + PSug[ j ];
         }
             NomProd[i - 1] = null;
             PrecProd[i - 1] = 0;
@@ -233,7 +234,41 @@ public class MyOwnShop {
     }
 
     private static void cargararchivo(){
-
+        try {
+            File file = new File("Productos.txt");
+            if (!file.exists()) {
+                System.out.println("No hay archivo de productos aún.");
+                return;
+            }
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String linea;
+            i = 0;
+            br.mark(500);
+            linea = br.readLine();
+            if (linea != null && linea.startsWith("Código:")) {
+                br.reset();
+            }
+            while ((linea = br.readLine()) != null) {
+                if (linea.trim().isEmpty()) continue;
+                String[] partes = linea.split(" \\| ");
+                if (partes.length != 5) continue; // Seguridad
+                int codigo = Integer.parseInt(partes[0].replace("Código:", "").trim());
+                String nombre = partes[1].replace("Nombre:", "").trim();
+                double precio = Double.parseDouble(partes[2].replace("Precio:", "").trim());
+                int cantidad = Integer.parseInt(partes[3].replace("Cantidad:", "").trim());
+                double sugerido = Double.parseDouble(partes[4].replace("Precio sugerido:", "").trim());
+                NomProd[i] = nombre;
+                PrecProd[i] = precio;
+                ExistProd[i] = cantidad;
+                PSug[i] = sugerido;
+                producto[i] = linea;
+                i++;
+            }
+            br.close();
+            System.out.println("Productos cargados correctamente desde el archivo.");
+        } catch (Exception e) {
+            System.out.println("Error al cargar productos: " + e.getMessage());
+        }
     }
 
     private static void guardararchivo() {
