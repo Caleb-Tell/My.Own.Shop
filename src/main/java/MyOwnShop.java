@@ -2,7 +2,7 @@ import java.io.*;
 import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.Scanner;
-public class MyOwnShop {
+public class  MyOwnShop {
     public static int i = 0;
     public static int Log = 0;
     public static String[] producto = new String[100];
@@ -75,7 +75,46 @@ public class MyOwnShop {
             
     }
 
-    private static void Competidores() {
+    private static void Competidores()
+    {
+        Scanner sc = new Scanner(System.in);
+        int seleccionado;
+        System.out.println("¿Deseas comparar los precios de los competidores con los tuyos?");
+        System.out.println("1. si\n2. no" );
+        seleccionado = sc.nextInt();
+        sc.nextLine();
+        if (seleccionado == 1)
+        {
+          precioCOMP ();
+        }
+
+
+    }
+
+    private static void precioCOMP()
+    {
+        Scanner sc = new Scanner(System.in);
+        int ComPre;
+        int[] PrecCom = new int[100];
+        int CONT = 0;
+        int otroprec;
+        do {
+            System.out.println("ingresa el precio del producto de tu competidor");
+            ComPre = sc.nextInt();
+            PrecCom[CONT] = ComPre;
+            CONT++;
+            System.out.println("deseas ingresar otro precio\n1. si\n2.no");
+            otroprec = sc.nextInt();
+
+           }while(otroprec ==1);
+        for (int h = 0; h < CONT; h++)
+        {
+            System.out.println(PrecCom[h]);
+
+        }
+
+
+
     }
 
     private static void DatosDelProducto() {
