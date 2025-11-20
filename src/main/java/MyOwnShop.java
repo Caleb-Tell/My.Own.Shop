@@ -182,7 +182,15 @@ public class  MyOwnShop {
         }
     }
 
-    private static void ReporteMensual() {
+    private static void ReporteMensual()
+    {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("¿Qué producto quieres cambiar?");
+
+        System.out.println("¿Actualizar el precio?");
+
+        System.out.println("¿Nuevo precio?");
+
     }
 
     private static void ReporteSemanal() {
@@ -290,6 +298,12 @@ public class  MyOwnShop {
 
     private static void GestionarInventario() 
     {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("¿Qué producto quieres cambiar?");
+
+        System.out.println("¿Actualizar el precio?");
+
+        System.out.println("¿Nuevo precio?");
 
     }
 
