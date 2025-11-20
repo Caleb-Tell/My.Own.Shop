@@ -61,6 +61,8 @@ public class  MyOwnShop {
         System.out.println("[1] Reporte de ventas.");
         System.out.println("[2] Datos del producto.");
         System.out.println("[3] Competidores.");
+        System.out.println("[4] Salir.");
+
         seleccion = sc.nextInt();
         sc.nextLine();
         switch (seleccion) {
@@ -72,6 +74,9 @@ public class  MyOwnShop {
                 break;
             case 3:
                 Competidores();
+                break;
+            case 4:
+                System.out.println("Saliendo.....");
                 break;
             default:
                 System.out.println("Elige una opción correcta");
@@ -133,6 +138,7 @@ public class  MyOwnShop {
         System.out.println("[1] Más vendidos");
         System.out.println("[2] Menos vendidos");
         System.out.println("[3] Estables");
+        System.out.println("[4] Regresar");
         int elegProd = sc.nextInt();
 
         switch (elegProd){
@@ -145,6 +151,8 @@ public class  MyOwnShop {
             case 3:
                 Estables();
                 break;
+            case 4:
+                 Estadisticas();
             default:
                 System.out.println("Ingresa opciones válidas");
                 break;
@@ -182,15 +190,7 @@ public class  MyOwnShop {
         }
     }
 
-    private static void ReporteMensual()
-    {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("¿Qué producto quieres cambiar?");
-
-        System.out.println("¿Actualizar el precio?");
-
-        System.out.println("¿Nuevo precio?");
-
+    private static void ReporteMensual() {
     }
 
     private static void ReporteSemanal() {
@@ -298,13 +298,28 @@ public class  MyOwnShop {
 
     private static void GestionarInventario() 
     {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("¿Qué producto quieres cambiar?");
-
-        System.out.println("¿Actualizar el precio?");
-
-        System.out.println("¿Nuevo precio?");
-
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Ingresa el código del producto:");
+        int codigo= sc.nextInt();
+        sc.nextLine();
+        System.out.println(producto[ codigo]);
+        if (producto [codigo] ==null)
+        {
+            System.out.println( "Producto no encontrado" );
+            return;
+        }
+        System.out.println("¿Deseas actualizar el precio del producto?\n[1] Sí\n[2] No");
+        int opcactualizar= sc.nextInt();
+        sc.nextLine();
+        switch (opcactualizar)
+        {
+            case 1: System.out.print( "Ingrese el nuevo precio del producto: ");
+                PrecProd[ codigo ] = sc.nextDouble();
+                break; case 2: System.out.println("Saliendo.........");
+            break;
+            default:
+                break;
+        }
     }
 
     private static void EliminarProductos() {
@@ -341,30 +356,45 @@ public class  MyOwnShop {
     private static void Productos() {
         Scanner sc = new Scanner(System.in);
         int j = 0;
-        while ( j == 0 ) {
-            System.out.println( "Ingresa el nombre del producto: " );
-            NomProd[ i ] = sc.nextLine();
-            System.out.println( "Ingresa el precio del producto: " );
-            PrecProd[ i ] = sc.nextInt();
-            sc.nextLine();
-            PSug[ i ] = (double) (PrecProd[ i ] + (PrecProd[ i ] * 0.30 ));
-            System.out.println( "Ingresa el número existencias del producto: " );
-            ExistProd[ i ] = sc.nextInt();
-            sc.nextLine();
-            producto[i] = "Código: " + i + " | " + "Nombre: " + NomProd[i] + " | " + "Precio: " + PrecProd[i] + " | " + "Cantidad: " + ExistProd[i] + " | " + "Precio sugerido: " + PSug[i];
-            System.out.println( "¿Desea agregar más prodcutos?\n1. Si\n2. No");
-            int Elec = sc.nextInt();
-            sc.nextLine();
-            if (Elec == 2){
-                j++;
+        int k = 0;
+        System.out.println("¿Qué deseas hacer?\n1. Ver los productos registrados\n2. Agregar priductos");
+        int opcInventario = sc.nextInt();
+        sc.nextLine();
+        if (opcInventario == 2) {
+            while (j == 0) {
+                System.out.println("Ingresa el nombre del producto: ");
+                NomProd[i] = sc.nextLine();
+                System.out.println("Ingresa el precio del producto: ");
+                PrecProd[i] = sc.nextInt();
+                sc.nextLine();
+                PSug[i] = (double) (PrecProd[i] + (PrecProd[i] * 0.30));
+                System.out.println("Ingresa el número existencias del producto: ");
+                ExistProd[i] = sc.nextInt();
+                sc.nextLine();
+                producto[i] = "Código: " + i + " | " + "Nombre: " + NomProd[i] + " | " + "Precio: " + PrecProd[i] + " | " + "Cantidad: " + ExistProd[i] + " | " + "Precio sugerido: " + PSug[i];
+                System.out.println("¿Desea agregar más prodcutos?\n1. Si\n2. No");
+                int Elec = sc.nextInt();
+                sc.nextLine();
+                if (Elec == 2) {
+                    j++;
+                }
+                i++;
             }
-            i++;
+            for (k = 0; k < i; k++) {
+                System.out.println(producto[ k ]);
+            }
+            guardararchivo();
+        } else {
+            if ( producto [ k ] == null){
+                System.out.println( "No hay nngún producto registrado" );
+            } else {
+                System.out.println(producto[k]);
+            }
         }
-        for ( int k = 0; k < i; k++)
-        {
-            System.out.println(producto[k]);
+        if ( opcInventario != 1  && opcInventario != 2){
+            System.out.println( "Opción inválida" );
+            return;
         }
-        guardararchivo();
     }
 
     private static void LoginBasico( ) {
@@ -376,6 +406,7 @@ public class  MyOwnShop {
         String usuario = sc.nextLine();
         System.out.print("Contraseña: ");
         String pass = sc.nextLine();
+        System.out.println( "Teclea 0000" );
         if (usuario.equals(usuarioCorrecto) && pass.equals(passwordCorrecta)) {
             System.out.println("Acceso permitido.");
             Log = 1;
