@@ -192,8 +192,24 @@ public class  MyOwnShop {
 
     private static void ReporteMensual()
     {
-        System.out.println("Filtrando ventas Mensuales");
-
+        Scanner sc = new Scanner(System.in);
+        int vent = 0;
+        int[] ventasemanal = new int[ 4 ];
+        int TotalVenta = 0;
+        System.out.println("Ingrese el código del producto que desee regsitrar para la venta mensual");
+        int codigo = sc.nextInt();
+        sc.nextLine();
+        System.out.println("Producto: " + NomProd[codigo]);
+        System.out.println("----------------------------------------");
+        String[] semanas = {"Semana 1", "Semana 2", "Semana 3", "Semana 4"};
+        for (int j = 0; j < semanas.length; j++) {
+            System.out.println("Ingrese la venta del producto durante la " + semanas[ j ]);
+            ventasemanal[ vent ] = sc.nextInt();
+            sc.nextLine();
+            TotalVenta += ventasemanal [ vent ];
+            vent++;
+        }
+        System.out.println( "La venta mensual del producto: " + NomProd [ codigo ] + " es de: " + TotalVenta);
     }
 
     private static void ReporteSemanal() {
