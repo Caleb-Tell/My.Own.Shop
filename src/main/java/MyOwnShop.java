@@ -217,7 +217,7 @@ public class  MyOwnShop {
         int vent = 0;
         int[] ventadiaria = new int[ 7 ];
         int TotalVenta = 0;
-        System.out.println("Ingrese el código del producto que desee regsitrar la venta semanal");
+        System.out.println("Ingrese el código del producto que desee regsitrar para la venta semanal");
         int codigo = sc.nextInt();
         sc.nextLine();
         System.out.println("Producto: " + NomProd[codigo]);
